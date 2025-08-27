@@ -6,6 +6,14 @@ export class Project1VpcArchitectureStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
+    new cdk.CfnOutput(this, 'VpcId', { value: vpc.vpcId });
+    new cdk.CfnOutput(this, 'PublicSubnetIds', {
+      value: vpc.publicSubnets.map(s => s.subnetId).join(',')
+    });
+    new cdk.CfnOutput(this, 'PrivateSubnetIds', {
+      value: vpc.privateSubnets.map(s => s.subnetId).join(',')
+    });
+
     new ec2.Vpc(this, 'AppVpc', {
       vpcName: 'proj1-vpc-architecture',
       maxAzs: 2,
