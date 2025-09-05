@@ -1,6 +1,6 @@
-# Project 1 – Secure VPC Network Architecture
+# Secure VPC Network Architecture
 
-![VPC Diagram](./diagrams/vpc.png)
+![VPC Diagram](./cdk/screenshots/vpc-overview.png)
 
 **Summary**  
 Designed a secure AWS VPC with subnet segmentation, NAT Gateway, and Bastion Host using Infrastructure as Code (AWS CDK, TypeScript).  
