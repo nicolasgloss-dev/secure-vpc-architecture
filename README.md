@@ -6,7 +6,7 @@
 Designed a secure AWS VPC with subnet segmentation, NAT Gateway, and Bastion Host using Infrastructure as Code (AWS CDK, TypeScript).  
 
 👉 [Read the full Architecture Decision Record (ADR)](./adr.md)  
-👉 [View Screenshots](./docs/screenshots/)  
+👉 [View Screenshots](./cdk/screenshots/)  
 
 ---
 
@@ -22,7 +22,7 @@ This design supports:
 - Controlled, auditable administrative access via a Bastion Host  
 
 ## 3. Architecture Diagram
-![VPC Architecture Diagram](./diagrams/vpc.png)
+![VPC Architecture Diagram](./cdk/screenshots/vpc-overview.png)
 
 ## 4. AWS Services Used
 - **Amazon VPC** – isolated network environment  
@@ -77,6 +77,6 @@ This design supports:
 
 ---
 
-## 📎 Supporting Materials
+## Supporting Materials
 - [Architecture Decision Record (ADR)](./adr.md)  
-- [Screenshots](./docs/screenshots/)
+- [Screenshots](./cdk/screenshots/)
