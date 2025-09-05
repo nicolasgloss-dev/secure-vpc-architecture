@@ -1,70 +1,82 @@
-# AWS Cloud Engineer Portfolio
+# Project 1 – Secure VPC Network Architecture
 
-This repository contains a series of hands-on AWS projects demonstrating my cloud engineering skills.  
-Each project includes full documentation, Infrastructure as Code (IaC), architecture diagrams, and implementation details.
+![VPC Diagram](./diagrams/vpc.png)
 
----
+**Summary**  
+Designed a secure AWS VPC with subnet segmentation, NAT Gateway, and Bastion Host using Infrastructure as Code (AWS CDK, TypeScript).  
 
-## ✅ Completed Projects
-
-### [Project 1: Secure VPC Network Architecture with NAT Gateway & Bastion Host](./project1-vpc-architecture)
-- Production-ready VPC design with public/private subnets, NAT Gateway, and Bastion Host.
-- Built using AWS CDK (TypeScript).
-- Includes detailed documentation, architecture decision log (ADR), and architecture diagram.
-- [Read Full Documentation](./project1-vpc-architecture/README.md)
+👉 [Read the full Architecture Decision Record (ADR)](./adr.md)  
+👉 [View Screenshots](./docs/screenshots/)  
 
 ---
 
-## 🛠️ Upcoming Projects
+## 1. Overview
+This project demonstrates how to design and implement a **secure Virtual Private Cloud (VPC)** on AWS.  
+It includes public and private subnet segmentation, a NAT Gateway for controlled outbound traffic, and a Bastion Host for secure administrative access.  
 
-### Project 2: CI/CD Pipeline with Blue/Green Deployments
-- Automated deployment pipeline triggered from GitHub.
-- Blue/Green deployment strategy for zero-downtime releases.  
-*Status: In Progress — Coming Soon*
+## 2. Business Need
+Organisations require secure and scalable network architectures to host workloads in the cloud.  
+This design supports:  
+- Isolated private subnets for application and database layers  
+- Secure outbound internet access without exposing private resources  
+- Controlled, auditable administrative access via a Bastion Host  
 
-### Project 3: AWS CDK Infrastructure Project
-- Multi-service deployment using AWS CDK (TypeScript).
-- Focused on advanced IaC patterns.  
-*Status: Planned*
+## 3. Architecture Diagram
+![VPC Architecture Diagram](./diagrams/vpc.png)
 
-### Project 4: Serverless Weather Notification System
-- Serverless app for weather alerts using Lambda, SNS, and EventBridge.
-- Demonstrates event-driven architecture.  
-*Status: Planned*
+## 4. AWS Services Used
+- **Amazon VPC** – isolated network environment  
+- **Subnets** – segmentation of resources into public/private zones  
+- **Internet Gateway (IGW)** – internet access for public subnets  
+- **NAT Gateway** – controlled outbound traffic from private subnets  
+- **EC2 Bastion Host** – secure SSH entry point to private subnets  
+- **Route Tables** – define network paths  
+- **Security Groups** – enforce least privilege access  
 
-### Project 5: Automated Security & Compliance Monitoring
-- Continuous compliance monitoring with AWS Config, Security Hub, and GuardDuty.
-- Automated remediation via SSM Automation.  
-*Status: Planned*
+## 5. Step-by-Step Implementation
+- **Day 1** – AWS setup: IAM, CLI, GitHub repo, CDK bootstrap  
+- **Day 2** – Initialise CDK app, deploy minimal VPC with public/private isolated subnets  
+- **Day 3** – Expand subnets and routing across 2 AZs  
+- **Day 4** – Add NAT Gateway and Bastion Host for secure access  
+- Verified deployments in AWS Console (VPC, subnets, routes, EC2 connectivity)  
 
-### Project 6: Disaster Recovery & High Availability Architecture
-- Cross-region failover using Route 53, Aurora Global Database, and AWS Backup.
-- Focused on resilience and disaster recovery scenarios.  
-*Status: Planned*
+## 6. Improvements Added
+- Applied least privilege IAM roles  
+- Configured Security Groups for Bastion Host (SSH only from my IP)  
+- Segregated resources across multiple AZs for high availability  
+
+## 7. Possible Enhancements
+- Replace Bastion Host with **AWS Systems Manager Session Manager** (removes need for public SSH)  
+- Add **VPC Flow Logs** for network monitoring  
+- Implement **multi-AZ NAT Gateways** for higher resilience  
+
+## 8. Failure Scenarios & Mitigations
+- **NAT Gateway failure** → private subnets lose outbound internet  
+  - *Mitigation:* deploy NAT in multiple AZs  
+- **Bastion Host compromise** → attacker could pivot into private subnets  
+  - *Mitigation:* restrict Security Group to specific IPs, consider Session Manager  
+
+## 9. Expected Outcomes
+- Secure, production-style network design  
+- Applications in private subnets remain protected while retaining necessary outbound access  
+- Administrative access tightly controlled via Bastion Host  
+
+## 10. Clean-up Steps
+- Run `cdk destroy` to remove stacks  
+- Manually delete S3 buckets created for assets (if not empty)  
+- Confirm NAT Gateway removed (avoid ongoing cost)  
+
+## 11. Challenges & Solutions
+- **Initial bootstrap errors** due to missing IAM permissions → fixed by attaching AdministratorAccess to IAM user temporarily  
+- **S3 bucket naming conflicts** → solved by using globally unique names with suffixes  
+
+## 12. Reflection / Lessons Learned
+- Building in increments helped me understand how VPC components fit together  
+- Using Infrastructure as Code (CDK) makes deployments consistent and repeatable  
+- Documenting each step makes future projects faster and more professional  
 
 ---
 
-## 🚀 How to Use This Repository
-
-- Navigate into each project folder (e.g., `project1-vpc-architecture/`) for:
-  - **README.md** → Full documentation & project explanation  
-  - **adr.md** → Architecture Decision Log  
-  - **cdk/** → Infrastructure as Code (AWS CDK TypeScript source code)  
-
-- Completed projects contain:
-  - Architecture diagrams (PNG/PDF)  
-  - Screenshots of AWS Console / Deployment Steps  
-  - Cleanup instructions to avoid unnecessary AWS costs  
-
-- Upcoming projects are listed with a **status** and will be published progressively.
-
----
-
-## 🌐 Portfolio Website
-The completed projects are also published on my [Portfolio Website](https://nicolasgloss.com) (built with Hugo + PaperMod, deployed on S3/CloudFront/Route 53).
-
----
-
-## 📌 About
-This portfolio is actively being developed. New projects will be added as they are completed.  
-Follow the repository to see updates as more projects go live.
+## 📎 Supporting Materials
+- [Architecture Decision Record (ADR)](./adr.md)  
+- [Screenshots](./docs/screenshots/)
