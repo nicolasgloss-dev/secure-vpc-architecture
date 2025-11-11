@@ -1,78 +1,47 @@
-\# Architecture Decision Record – Project 1: Secure VPC Network Architecture with Bastion Host
+# Architecture Decision Record – Project 1: Secure VPC Network Architecture with Bastion Host
 
+## 🧭 Context
 
+Networking is foundational for all projects in this portfolio.  
+This VPC needed to balance **high availability**, **security**, and **cost-efficiency**.
 
-\## Context
-
-Networking is a foundation for all later projects in this portfolio.  
-
-The design needed to balance high availability, security, and cost-awareness.  
-
-The VPC had to support both internet-facing resources (public subnets) and  
-
-internal workloads (private subnets) while providing a secure way to access them.
-
-
+Key requirements:
+- Support both **public-facing** and **private internal workloads**
+- Allow **controlled SSH access** to private resources
+- Provide a realistic, production-style network environment
 
 ---
 
+## ✅ Decision
 
-
-\## Decision
-
-\- Create a \*\*VPC across 2 Availability Zones\*\* with both public and private subnets.  
-
-\- Use a \*\*single NAT Gateway\*\* to allow private subnets to reach the internet, while keeping cost low.  
-
-\- Add a \*\*Bastion Host\*\* in a public subnet to provide controlled SSH access into the VPC.  
-
-\- Restrict SSH access to \*\*only my IP\*\*, passed in at deploy time.  
-
-\- Provide \*\*CloudFormation outputs\*\* for IDs and a ready-to-run SSH command for verification.
-
-
+- **VPC across 2 Availability Zones** with both **public** and **private** subnets  
+- Use a **single NAT Gateway** to enable secure outbound internet from private subnets  
+- Deploy a **Bastion Host in a public subnet** to allow SSH access  
+- Restrict SSH to **only my IP**, passed via context at deploy time  
+- Output key values (e.g., EC2 ID, VPC ID) and a ready-to-use **SSH command**
 
 ---
 
+## 🔁 Alternatives Considered
 
-
-\## Alternatives Considered
-
-\- \*\*Two NAT Gateways\*\* – more highly available, but too expensive for a portfolio project.  
-
-\- \*\*Wide-open SSH (0.0.0.0/0)\*\* – easier to demo but insecure and not realistic.  
-
-\- \*\*AWS Systems Manager Session Manager (SSM)\*\* – modern, keyless access with no inbound ports.  
-
-&nbsp; - Decided to leave as a future enhancement for realism and simplicity.  
-
-\- \*\*No bastion host\*\* – cheaper, but no way to access private subnets for testing or workloads.
-
-
+| Option | Reason Not Chosen |
+|--------|--------------------|
+| **Two NAT Gateways** | Improves HA, but too expensive for this portfolio |
+| **Wide-open SSH (0.0.0.0/0)** | Easier for testing, but insecure and unrealistic |
+| **AWS Systems Manager (SSM)** | More secure, keyless access — left as a **future enhancement** |
+| **No Bastion Host** | Would block access to private instances for testing |
 
 ---
 
+## 🎯 Consequences
 
-
-\## Consequences
-
-\- Demonstrates real-world \*\*VPC segmentation\*\* and secure access patterns.  
-
-\- Shows cost-conscious design with a \*\*single NAT Gateway\*\*.  
-
-\- Provides reusable outputs for future projects in this portfolio.  
-
-\- Leaves a clear path to improve security with \*\*SSM\*\* and \*\*VPC Endpoints\*\* later.
-
-
+- Demonstrates a **realistic, segmented VPC** design with secure access patterns  
+- Shows **cost-aware tradeoffs** (single NAT Gateway vs. full HA)  
+- Lays a foundation for future projects with **reusable network outputs**  
+- Leaves room to evolve towards more secure options like **SSM Session Manager** and **VPC Endpoints**
 
 ---
 
+## 📌 Status
 
-
-\## Status
-
-\*\*Accepted\*\* – Implemented in Day 1–3 of Project 1.
-
-
-
+**✅ Accepted** — Implemented during Days 1–3 of the Secure VPC project
