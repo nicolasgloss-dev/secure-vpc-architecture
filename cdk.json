@@ -1,0 +1,8 @@
+{
+  "app": "npx ts-node --prefer-ts-exts bin/secure-vpc-architecture.ts",
+  "context": {
+    "@aws-cdk/core:bootstrapQualifier": "vpc",
+    "@aws-cdk/aws-ec2:defaultNatGatewayProvider": "Instance",
+    "sshIp": "0.0.0.0/0"
+  }
+}
